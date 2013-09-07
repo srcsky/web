@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="localOverride" value="true"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="properties">
+            <props>
+                <!--C3p0-->
+                <prop key="srcsky.framework.c3p0.driverClass">org.h2.Driver</prop>
+                <prop key="srcsky.framework.c3p0.jdbcUrl">jdbc:h2:src/main/resources/config/h2/enterprise</prop>
+                <prop key="srcsky.framework.c3p0.user">sa</prop>
+                <prop key="srcsky.framework.c3p0.password"></prop>
+                <prop key="srcsky.framework.c3p0.minPoolSize">5</prop>
+                <prop key="srcsky.framework.c3p0.maxPoolSize">200</prop>
+                <prop key="srcsky.framework.c3p0.initialPoolSize">5</prop>
+                <prop key="srcsky.framework.c3p0.automaticTestTable">TB_BASE_CONECT_TEST</prop>
+                <!--Hibernate-->
+                <prop key="srcsky.framework.hibernate.packagesToScan">com.srcskymodule.*.domain</prop>
+                <prop key="srcsky.framework.hibernate.excludedClassesRegexPatterns">com.srcskymodule.*.domain</prop>
+                <prop key="srcsky.framework.hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                <prop key="srcsky.framework.hibernate.show_sql">true</prop>
+                <prop key="srcsky.framework.hibernate.format_sql">true</prop>
+                <prop key="srcsky.framework.hibernate.hbm2ddl.auto">update</prop>
+                <prop key="srcsky.framework.hibernate.cache.use_query_cache">true</prop>
+                <prop key="srcsky.framework.hibernate.cache.use_second_level_cache">true</prop>
+                <prop key="srcsky.framework.hibernate.cache.ehcache.configurationResourceName">/config/ehcache/config.xml</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--    ORACLE_driverClass      : oracle.jdbc.driver.OracleDriver"/-->
+        <!--    SQLSERVER_driverClass   : net.sourceforge.jtds.jdbc.Driver"/-->
+        <!--    MYSQL_driverClass       : com.mysql.jdbc.Driver"/-->
+        <property name="driverClass" value="${srcsky.framework.c3p0.driverClass}"/>
+        <!--    jdbcUrl : jdbc:oracle:thin:@127.0.0.1:1521:dbName -->
+        <!--    jdbcUrl : jdbc:jtds:sqlserver://127.0.0.1:1433/dbName"/-->
+        <!--    jdbcUrl : jdbc:mysql://127.0.0.1:3306/dbName?useUnicode=true&amp;characterEncoding=utf8"/-->
+        <property name="jdbcUrl" value="${srcsky.framework.c3p0.jdbcUrl}"/>
+        <property name="user" value="${srcsky.framework.c3p0.user}"/>
+        <property name="password" value="${srcsky.framework.c3p0.password}"/>
+        <property name="minPoolSize" value="${srcsky.framework.c3p0.minPoolSize}"/>
+        <property name="maxPoolSize" value="${srcsky.framework.c3p0.maxPoolSize}"/>
+        <property name="initialPoolSize" value="${srcsky.framework.c3p0.initialPoolSize}"/>
+        <!--c3p0将建一张名为Test的空表，并使用其自带的查询语句进行测试。如果定义了这个参数那么属性preferredTestQuery将被忽略。你不能在这张Test表上进行任何操作，它将只供c3p0测试使用。Default: null-->
+        <property name="automaticTestTable" value="${srcsky.framework.c3p0.automaticTestTable}"/>
+        <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="60"/>
+        <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+        <property name="idleConnectionTestPeriod" value="60"/>
+        <!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试获取连接失败后该数据源将申明已断开并永久关闭。Default: false-->
+        <property name="breakAfterAcquireFailure" value="true"/>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+        <property name="acquireIncrement" value="3"/>
+        <!--因性能消耗大请只在需要的时候使用它。如果设为true那么在每个connection提交的时候都将校验其有效性。建议使用idleConnectionTestPeriod或automaticTestTable等方法来提升连接测试的性能。Default: false -->
+        <property name="testConnectionOnCheckout" value="false"/>
+        <!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+        <property name="acquireRetryAttempts" value="30"/>
+        <!--当连接池用完时客户端调用getConnection()后等待获取新连接的时间，超时后将抛出SQLException,如设为0则无限期等待。单位毫秒。Default: 0 -->
+        <property name="checkoutTimeout" value="3000"/>
+        <!--如果设为true那么在取得连接的同时将校验连接的有效性。Default: false -->
+        <!--<property name="testConnectionOnCheckin" value="true"/>-->
+        <!--c3p0是异步操作的，缓慢的JDBC操作通过帮助进程完成。扩展这些操作可以有效的提升性能通过多线程实现多个操作同时被执行。Default:5-->
+        <property name="numHelperThreads" value="5"/>
+        <!--定义所有连接测试都执行的测试语句。在使用连接测试的情况下这个一显著提高测试速度。注意：测试的表必须在初始数据源的时候就存在。Default: null-->
+        <!--property name="preferredTestQuery">select id from tb_system_test_conect where id=1</property-->
+    </bean>
+
+    <bean id="sessionFactory" class="com.srcskyframework.hibernate.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan">
+            <list>
+                <value>com.enterprise.application.system.domain</value>
+                <value>${srcsky.framework.hibernate.packagesToScan}</value>
+            </list>
+        </property>
+        <property name="excludedClassesRegexPatterns">
+            <list>
+                <value>${srcsky.framework.hibernate.excludedClassesRegexPatterns}</value>
+            </list>
+        </property>
+        <!--property name="entityInterceptor">
+            <bean class="${bean.hibernate.entityInterceptor}"/>
+        </property-->
+
+        <property name="hibernateProperties">
+            <props>
+                <!--hibernate.dialect : org.hibernate.dialect.Oracle9Dialect" -->
+                <!--hibernate.dialect : org.hibernate.dialect.MySQLDialect" -->
+                <!--hibernate.dialect : org.hibernate.dialect.MySQLDialect" -->
+                <prop key="hibernate.dialect">${srcsky.framework.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${srcsky.framework.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${srcsky.framework.hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${srcsky.framework.hibernate.hbm2ddl.auto}</prop>
+                <prop key="hibernate.cache.use_query_cache">${srcsky.framework.hibernate.cache.use_query_cache}</prop>
+                <prop key="hibernate.cache.use_second_level_cache">${srcsky.framework.hibernate.cache.use_second_level_cache}</prop>
+                <prop key="hibernate.jdbc.fetch_size">60</prop>
+                <prop key="hibernate.jdbc.batch_size">30</prop>
+                <prop key="hibernate.default_batch_fetch_size">16</prop>
+                <prop key="hibernate.max_fetch_depth">3</prop>
+                <!--指定Hibernate在何时释放JDBC连接. 默认情况下,直到Session被显式关闭或被断开连接时,才会释放JDBC连接. 对于应用程序服务器的JTA数据源, 你应当使用after_statement, 这样在每次JDBC调用后，都会主动的释放连接. 对于非JTA的连接, 使用after_transaction在每个事务结束时释放连接是合理的. auto将为JTA和CMT事务策略选择after_statement, 为JDBC事务策略选择after_transaction. 取值 on_close | after_transaction | after_statement-->
+                <!--on_close | after_transaction | after_statement -->
+                <prop key="hibernate.connection.release_mode">after_transaction</prop>
+                <!--prop key="hibernate.connection.isolation">1</prop-->
+                <!--prop key="hibernate.query.substitutions">true 1, false 0</prop-->
+                <!--prop key="hibernate.default_batch_fetch_size">16</prop-->
+                <!--prop key="hibernate.max_fetch_depth">2</prop-->
+                <!--prop key="hibernate.bytecode.use_reflection_optimizer">true</prop-->
+                <!--<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>-->
+                <prop key="hibernate.cache.region.factory_class">
+                    org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+                </prop>
+                <prop key="net.sf.ehcache.configurationResourceName">${srcsky.framework.hibernate.cache.ehcache.configurationResourceName}</prop>
+                <prop key="hibernate.cache.use_structured_entries">true</prop>
+                <prop key="hibernate.generate_statistics">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <!-- 定义事务管理器（声明式的事务）(针对hibernate的事务管理器) -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <!-- 配置HibernateTransactionManager时需要依注入 SessionFactory的引用 -->
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+
+    <!--hibernate4必须配置为开启事务 否则 getCurrentSession()获取不到-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="create*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="merge*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="load*" propagation="REQUIRED"/>
+            <tx:method name="join*" propagation="REQUIRED"/>
+            <tx:method name="change*" propagation="REQUIRED"/>
+            <tx:method name="generate*" propagation="REQUIRED"/>
+            <tx:method name="get*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="count*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="find*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="*" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 只对业务逻辑层实施事务 -->
+    <aop:config proxy-target-class="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="dao"
+                      expression="(execution(* *..AbstractDaoImpl.*(..)) || execution(* *..logic.impl.*.*(..))) &amp;&amp; ! @annotation(org.springframework.transaction.annotation.Transactional)"/>
+        <!--<aop:pointcut id="logic" expression="execution(* *..logic.logic.*.*(..))"/>-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="dao"/>
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="logic"/>-->
+    </aop:config>
+
+    <!-- 采用@Transaction注解的方式使用事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+</beans>

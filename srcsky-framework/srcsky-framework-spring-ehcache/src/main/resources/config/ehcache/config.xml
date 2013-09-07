@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="target/cache"/>
+    <!--
+    maxElementsInMemory:内存中最大缓存对象数。
+    maxElementsOnDisk：磁盘中最大缓存对象数，若是0表示无穷大。
+    eternal：Element是否永久有效，一但设置了，timeout将不起作用。
+    overflowToDisk：配置此属性，当内存中Element数量达到maxElementsInMemory时，Ehcache将会Element写到磁盘中。
+    timeToIdleSeconds：设置Element在失效前的允许闲置时间。仅当element不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大。
+    timeToLiveSeconds：设置Element在失效前允许存活时间。最大时间介于创建时间和失效时间之间。仅当element不是永久有效时使用，默认是0.，也就是element存活时间无穷大。
+    diskPersistent：是否缓存虚拟机重启期数据。（这个虚拟机是指什么虚拟机一直没看明白是什么,有高人还希望能指点一二）。
+    diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认是120秒。
+    diskSpoolBufferSizeMB：这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区。
+    memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。这里比较遗憾，Ehcache并没有提供一个用户定制策略的接口，仅支持三种指定策略。
+    -->
+    <!--最大允许1千个对象在内存中，硬盘缓存对象不限制，缓存不是永久有效，开启硬盘缓存，最大在内存中停留时间为30分钟，超过15分钟没有被访问则被 清除 -->
+    <defaultCache
+            maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+            overflowToDisk="true" timeToIdleSeconds="900" timeToLiveSeconds="1800"
+            diskPersistent="true" diskSpoolBufferSizeMB="1024"/>
+
+    <!--公共缓存,最少缓存15分钟，最多30分钟-->
+    <cache name="com.enterprise.application.system.logic.impl.DefaultCacheImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToIdleSeconds="900" timeToLiveSeconds="1800"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--数据库基础缓存-->
+    <cache name="com.enterprise.framework.orm.hibernate.AbstractDaoImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToIdleSeconds="900" timeToLiveSeconds="1800"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--资源,最多缓存1天-->
+    <cache name="com.enterprise.application.system.logic.impl.ResourceImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--广告,最多缓存1天，一条数据修改 则直接 清空  全部 Cache-->
+    <cache name="com.enterprise.application.system.logic.impl.AdImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--推荐,最多缓存1天，一条数据修改 则直接 清空  全部 Cache-->
+    <cache name="com.enterprise.application.system.logic.impl.RecommendImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--推荐,最多缓存1天，有数据修改则直接使用逻辑代码更新-->
+    <cache name="com.enterprise.application.system.logic.impl.FavoriteImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--评论,最多缓存1天，有数据修改则直接使用逻辑代码更新-->
+    <cache name="com.enterprise.application.system.logic.impl.CommentImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--友情连接,最多缓存1天，有数据修改则直接使用逻辑代码更新-->
+    <cache name="com.enterprise.application.system.logic.impl.LinkImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+    <!--统计数缓存,最多缓存1天，有数据修改则直接使用逻辑代码更新-->
+    <cache name="com.enterprise.application.system.logic.impl.HitCountImpl"
+           maxElementsInMemory="1000" maxElementsOnDisk="0" eternal="false"
+           overflowToDisk="true" timeToLiveSeconds="86400"
+           diskPersistent="true" diskSpoolBufferSizeMB="1024">
+        <cacheEventListenerFactory class="com.srcskyframework.ehcache.CacheGroupListenerFactory"/>
+    </cache>
+
+</ehcache>

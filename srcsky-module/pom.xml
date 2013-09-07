@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.srcsky</groupId>
+        <artifactId>srcsky</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.srcskymodule</groupId>
+    <artifactId>srcsky-module</artifactId>
+    <packaging>pom</packaging>
+
+    <properties>
+        <!--=======================================属性-变量信息配置=================================================-->
+        <!-- scrsky 版本号配置 -->
+        <version.srcsky>1.0-SNAPSHOT</version.srcsky>
+    </properties>
+    <modules>
+        <module>srcsky-module-static</module>
+        <module>srcsky-module-properties</module>
+        <module>srcsky-module-resource</module>
+    </modules>
+</project>

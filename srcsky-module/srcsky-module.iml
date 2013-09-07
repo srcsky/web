@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-ad" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-admin" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-article" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-cas" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-city" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-comment" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-favorite" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-feedback" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-hitcount" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-log" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-recommend" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-seo" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-sms" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-template" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-user" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-servlet-api:7.0.37" level="project" />
+  </component>
+</module>
+

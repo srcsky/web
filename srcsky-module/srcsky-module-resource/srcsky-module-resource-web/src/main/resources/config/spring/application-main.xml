@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- Import Framework Config-->
+    <!-- Spring -->
+    <import resource="classpath*:config/spring/application-framework-spring.xml"/>
+    <!-- Hibernate -->
+    <import resource="classpath*:config/spring/application-framework-hibernate.xml"/>
+    <!-- Spring-Mvc -->
+    <import resource="classpath*:config/spring/application-framework-spring-mvc.xml"/>
+
+    <!-- 开启 Logic 扫描-->
+    <context:component-scan base-package="com.srcskymodule.*.logic.impl">
+        <!--<context:exclude-filter type="assignable" expression="com.srcskymodule.resource.logic.impl.ResourceImpl"/>-->
+    </context:component-scan>
+
+    <!-- 开启 Controller 扫描-->
+    <context:component-scan base-package="com.srcskymodule.*.web">
+        <!--<context:exclude-filter type="regex" expression=".*ResourceController"/>-->
+    </context:component-scan>
+
+</beans>

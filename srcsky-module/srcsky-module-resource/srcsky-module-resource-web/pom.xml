@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.srcskymodule</groupId>
+        <artifactId>srcsky-module-resource</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.srcskymodule</groupId>
+    <artifactId>srcsky-module-resource-web</artifactId>
+    <packaging>war</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <uriEncoding>${build.encoding}</uriEncoding>
+                    <port>80</port>
+                    <path>/</path>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.0</version>
+                <configuration>
+                    <!-- 配置站点国际化 -->
+                    <locales>zh_CN</locales>
+                    <!-- 输出编码 -->
+                    <outputEncoding>GBK</outputEncoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+        <!-- scrskyframework 版本号配置 -->
+        <version.srcskyframework>1.0-SNAPSHOT</version.srcskyframework>
+        <!-- scrskymodule 版本号配置 -->
+        <version.srcskymodule>1.0-SNAPSHOT</version.srcskymodule>
+    </properties>
+    <!--依赖配置-->
+    <dependencies>
+
+        <dependency>
+            <groupId>com.srcskyframework</groupId>
+            <artifactId>srcsky-framework-spring-mvc</artifactId>
+            <version>${version.srcsky}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.srcskymodule</groupId>
+            <artifactId>srcsky-module-resource-lib</artifactId>
+            <version>${version.srcsky}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.srcskymodule</groupId>
+            <artifactId>srcsky-module-static-web</artifactId>
+            <version>${version.srcsky}</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>www.jboss.com</id>
+            <url>https://repository.jboss.org/nexus/service/local/repositories/central/content</url>
+        </repository>
+        <repository>
+            <id>dev.srcsky.com</id>
+            <url>http://dev.srcsky.com:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>www.jboss.com</id>
+            <url>https://repository.jboss.org/nexus/service/local/repositories/central/content</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>dev.srcsky.com</id>
+            <url>http://dev.srcsky.com:8081/nexus/content/repositories/thirdparty/</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>

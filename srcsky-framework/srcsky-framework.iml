@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-framework-struts" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-hibernate" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-ibatis" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-spring" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-spring-mvc" />
+      <excludeFolder url="file://$MODULE_DIR$/srcsky-struts" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-servlet-api:7.0.37" level="project" />
+  </component>
+</module>
+

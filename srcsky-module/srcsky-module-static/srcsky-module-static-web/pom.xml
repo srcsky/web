@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>srcsky-module-static</artifactId>
+        <groupId>com.srcskymodule</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>srcsky-module-static-web</artifactId>
+    <packaging>jar</packaging>
+
+
+    <build>
+        <resources>
+            <!-- 将WebApp资源一起打包进Jar包-->
+            <resource>
+                <directory>src/main/webapp/static</directory>
+                <targetPath>com/enterprise/webapp/static/</targetPath>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/thirdparty/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <property name="js.compress.directory"
+                                          value="${project.basedir}/src/main/webapp/static/js/"/>
+                                <property name="css.compress.directory"
+                                          value="${project.basedir}/src/main/webapp/static/css/"/>
+                                <property name="closure-compiler"
+                                          value="${project.basedir}/src/main/resources/config/compress/compiler.jar"/>
+                                <property name="closure-compiler-extern"
+                                          value="${project.basedir}/src/main/resources/config/compress/extern.js"/>
+                                <property name="yuicompressor"
+                                          value="${project.basedir}/src/main/resources/config/compress/yuicompressor-2.4.2.jar"/>
+                                <echo message="开始压缩 JS 文件. 请耐心等待！"/>
+                                <apply executable="java" verbose="true" failonerror="true"
+                                       parallel="false" dest="${js.compress.directory}">
+                                    <fileset dir="${js.compress.directory}">
+                                        <include name="**/*.js"/>
+                                        <exclude name="**/**-min.js"/>
+                                        <exclude name="enterprise/thirdparty/**"/>
+                                    </fileset>
+                                    <arg line="-jar"/>
+                                    <arg path="${closure-compiler}"/>
+                                    <arg line="--externs ${closure-compiler-extern}"/>
+                                    <arg line="--compilation_level SIMPLE_OPTIMIZATIONS"/>
+                                    <arg line="--jscomp_off=checkTypes"/>
+                                    <arg line="--jscomp_error=checkDebuggerStatement"/>
+                                    <arg value="--js"/>
+                                    <srcfile/>
+                                    <arg value="--js_output_file"/>
+                                    <targetfile/>
+                                    <mapper type="regexp" from="^(.*)\.(js)$" to="\1-min.\2"/>
+                                </apply>
+                                <echo message="成功压缩 JS 文件"/>
+                                <echo message="开始压缩 CSS 文件. 请耐心等待！"/>
+                                <apply executable="java" parallel="false" failonerror="true"
+                                       dest="${js.compress.directory}/enterprise/css">
+                                    <fileset dir="${js.compress.directory}/enterprise/css">
+                                        <include name="**/*.css"/>
+                                        <exclude name="**/**-min.css"/>
+                                    </fileset>
+                                    <arg line="-jar"/>
+                                    <arg path="${yuicompressor}"/>
+                                    <arg line="--charset UTF-8"/>
+                                    <arg value="--type"/>
+                                    <arg value="css"/>
+                                    <srcfile/>
+                                    <arg line="-o"/>
+                                    <targetfile/>
+                                    <mapper type="regexp" from="^(.*)\.(css)$" to="\1-min.\2"/>
+                                </apply>
+                                <echo message="成功压缩 CSS 文件"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

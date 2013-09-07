@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sql>
+    <!--依照 状体 分组 统计 资源数量 -->
+    <key name="coungGroupByAuditing">
+        <![CDATA[
+           SELECT
+                T1.AUDITING as AUDITING,
+                COUNT(*) count
+            FROM TB_BASE_RESOURCE T1
+                WHERE 1=1  GROUP BY T1.AUDITING
+       ]]>
+    </key>
+</sql>
